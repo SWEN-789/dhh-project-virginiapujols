@@ -1,0 +1,131 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Grid Template · Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/grid/">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="grid.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      @font-face {
+        font-family: "ASL-Font";
+        src: url('symbol_font_for_asl/symbol_font_for_asl.ttf');
+      }
+
+      .asl {
+        font-family: ASL-Font;
+      }
+
+    </style>
+
+  </head>
+  <body class="py-4">
+    <div class="container">
+      <h1>Assistive Technology for the Deaf and Hard of Hearing</h1>
+      <p class="lead">This application uses the <a href='http://aslfont.github.io/Symbol-Font-For-ASL/ways-to-write.html'><code>Symbol Font For ASL</code></a> package.</p>
+      <p>Since ASL is a three-dimensional language, putting it into written form presents unique challenges. <code>Symbol Font For ASL</code> is a project focused on one of the biggest hurdles: the problem of how to get written ASL online.</p>
+
+      <hr class="my-4">
+
+      <h2 class="mt-4">Two Implementations</h2>
+      <p>Per the documentation, nesting is easy—just put a row of columns within an existing column. This gives you two columns <strong>starting at desktops and scaling to large desktops</strong>, with another two (equal widths) within the larger column.</p>
+      <p>At mobile device sizes, tablets and down, these columns and their nested columns will stack.</p>
+
+      <button id="submitWeather" type="submit">Tell me the weather</button>
+      <button id="submitJoke" type="submit">Tell me a joke</button>
+
+      <div class="row mb-3">
+        <div id="show_result">
+        </div>
+      </div>
+
+      <hr class="my-4">
+    </div> <!-- /container -->
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#submitWeather').click(function() {
+      $.ajax({
+          url: 'http://api.openweathermap.org/data/2.5/weather?zip=14623&units=metric&APPID=76d52e8e3dabefca336ab10afde548bb',
+          type: "GET",
+          dataType: "jsonp",
+          success: function(data) {
+            var weatherData = "";
+            weatherData += "\n"+"  Today's Forecast is "+ data.weather[0].main + ". <br/>";
+            weatherData += "\n"+"  The current temperature is "+ data.main.temp +" degrees Celcius. <br/>";
+            weatherData += "\n"+"  With a Max of "+data.main.temp_max+" degrees Celcius and a Min of "+data.main.temp_min+" degrees Celcius. <br/>";
+            weatherData += "\n"+"  The Wind speed is "+data.wind.speed+" m/s. <br/>";
+
+            var html = "";
+            html += "\n"+"<p class='asl' style='text-align:center;letter-spacing:0em;line-height: 1.5;font-size: 2.3rem;'>";
+            html += weatherData;
+            html += "\n"+"</p>";
+            html += "\n"+"<hr class='my-4'>";
+            html += "\n"+"<p class='lead' style='letter-spacing:0em;line-height: 1.5;'>";
+            html += weatherData;
+            html += "\n"+"</p>";
+
+            console.log(data.weather);
+            console.log(data.weather[0].main);
+            // http://openweathermap.org/img/w/10d.png
+            $("#show_result").html(html);
+
+          }
+      });
+    });
+
+    $('#submitJoke').click(function () {
+      joke_list = [
+        'Why are frogs are so happy? \nThey eat whatever bugs them.',
+        'How do you befriend a squirrel? \nJust act like a nut.',
+        'What do you do if someone thinks an onion is the only food that can make them cry? \nThrow a coconut at their face.',
+        'The past, the present, and the future walk into a bar. \nIt was tense.',
+        'Job interviewer: “And where would you see yourself in five years’ time Mr. Jeffries?"\nMr. Jeffries: "Personally I believe my biggest weakness is in listening."'
+      ];
+
+      var joke = joke_list[~~(joke_list.length * Math.random())]; //joke_list[Math.floor(Math.random() * joke_list.length)];
+
+      var html = "";
+      html += "\n"+"<p class='asl' style='text-align:center;letter-spacing:0em;line-height: 1.5;font-size: 2.3rem;'>";
+      html += joke;
+      html += "\n"+"</p>";
+      html += "\n"+"<hr class='my-4'>";
+      html += "\n"+"<p class='lead' style='letter-spacing:0em;line-height: 1.5;'>";
+      html += joke;
+      html += "\n"+"</p>";
+
+      $("#show_result").html(html);
+
+    });
+});
+</script>
+
+</html>
